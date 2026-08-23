@@ -169,6 +169,66 @@ export const INITIAL_PRODUCTS: Product[] = [
     suggestedUpsells: ['upsell-strap-1']
   },
   {
+    id: 'prod-20',
+    name: 'Samsung Galaxy Fit3',
+    price: 3999,
+    rating: 4.5,
+    matchScore: 91,
+    image: 'https://images.unsplash.com/photo-1557438159-51eec7a6c9e8?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Slim fitness band with sleep tracking, heart-rate monitoring, and a bright AMOLED display.',
+    features: ['AMOLED Display', 'Sleep Coaching', '5ATM Water Resistance'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-21',
+    name: 'Amazfit Bip 5',
+    price: 5499,
+    rating: 4.4,
+    matchScore: 89,
+    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Large-screen fitness smartwatch with GPS, health tracking, and long battery life.',
+    features: ['Built-in GPS', 'Health Monitoring', 'Up to 10-Day Battery'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-22',
+    name: 'Noise ColorFit Pulse 4',
+    price: 2999,
+    rating: 4.2,
+    matchScore: 85,
+    image: 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Budget-friendly smartwatch with activity tracking, heart-rate alerts, and workout modes.',
+    features: ['Activity Tracking', 'Heart-Rate Alerts', 'Multiple Sports Modes'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-23',
+    name: 'Apple Watch SE',
+    price: 24999,
+    rating: 4.8,
+    matchScore: 95,
+    image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Smart fitness watch with advanced workout metrics, crash detection, and seamless iPhone integration.',
+    features: ['Workout Metrics', 'Crash Detection', 'Heart Health Notifications'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-24',
+    name: 'Polar Pacer Pro',
+    price: 18999,
+    rating: 4.7,
+    matchScore: 93,
+    image: 'https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Lightweight training watch with precise GPS, recovery insights, and guided running plans.',
+    features: ['Training Load', 'Recovery Tracking', 'Precision GPS'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
     id: 'prod-8',
     name: 'Under Armour SpeedFit Shorts',
     price: 1899,
