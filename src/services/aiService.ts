@@ -21,13 +21,19 @@ export async function processAICustomerQuery(userPrompt: string): Promise<AISear
   const queryLower = userPrompt.toLowerCase();
   const budget = extractBudget(userPrompt);
 
-  // Exact Hackathon Flow Match for Running Shoes query
+  // Match running shoe queries while still honoring the requested budget.
   if (queryLower.includes('running') || queryLower.includes('shoes') || queryLower.includes('5000') || queryLower.includes('5,000')) {
-    const runningShoes = [
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-nike-1')!,
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-adidas-1')!,
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-puma-1')!
-    ].filter(Boolean);
+    const runningShoes = INITIAL_PRODUCTS
+      .filter(product => !product.isUpsell && product.category === 'Running Shoes')
+      .filter(product => budget === null || product.price <= budget);
+
+    if (runningShoes.length === 0) {
+      return {
+        messageText: 'Item is not found under your requested budget.',
+        matchedProducts: [],
+        recommendedUpsells: []
+      };
+    }
 
     const upsells = [
       INITIAL_PRODUCTS.find(p => p.id === 'upsell-socks-1')!,
@@ -54,12 +60,20 @@ export async function processAICustomerQuery(userPrompt: string): Promise<AISear
     return matchesBudget && matchesKeyword;
   });
 
-  // Fallback to top products if query is general
-  if (matches.length === 0) {
+  // Only use the general fallback when no budget constraint was requested.
+  if (matches.length === 0 && budget === null) {
     matches = INITIAL_PRODUCTS.filter(p => !p.isUpsell).slice(0, 3);
   }
 
   const defaultUpsells = INITIAL_PRODUCTS.filter(p => p.isUpsell).slice(0, 2);
+
+  if (matches.length === 0) {
+    return {
+      messageText: 'Item is not found under your requested budget.',
+      matchedProducts: [],
+      recommendedUpsells: []
+    };
+  }
 
   return {
     messageText: `I found ${matches.length} products based on your budget and requirements.`,
