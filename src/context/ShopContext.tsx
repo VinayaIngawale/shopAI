@@ -250,7 +250,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    setChatMessages(prev => [...prev, userMsg]);
+    setChatMessages(prev => {
+      const updated = [...prev, userMsg];
+      return updated.slice(-6);
+    });
     setIsAiThinking(true);
 
     try {
@@ -263,7 +266,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         recommendedUpsells: res.recommendedUpsells,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
-      setChatMessages(prev => [...prev, aiMsg]);
+      setChatMessages(prev => {
+        const updated = [...prev, aiMsg];
+        return updated.slice(-6);
+      });
     } finally {
       setIsAiThinking(false);
     }

@@ -39,6 +39,79 @@ export const INITIAL_PRODUCTS: Product[] = [
     suggestedUpsells: ['upsell-socks-1', 'upsell-bottle-1']
   },
 
+  {
+    id: 'prod-laptop-1',
+    name: 'Dell Inspiron 15',
+    price: 54999,
+    rating: 4.4,
+    matchScore: 92,
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80',
+    category: 'Laptops',
+    description: 'Lightweight everyday laptop with a 15.6-inch display, fast performance, and reliable battery life.',
+    features: ['15.6-inch FHD display', 'Intel Core i5', '8GB RAM', '512GB SSD'],
+    suggestedUpsells: ['upsell-laptop-bag-1', 'upsell-mouse-1']
+  },
+  {
+    id: 'prod-laptop-2',
+    name: 'HP Pavilion 14',
+    price: 67999,
+    rating: 4.6,
+    matchScore: 94,
+    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80',
+    category: 'Laptops',
+    description: 'Balanced premium laptop for work, streaming, and multitasking with sharp visuals and performance.',
+    features: ['14-inch display', 'AMD Ryzen 5', '16GB RAM', '512GB SSD'],
+    suggestedUpsells: ['upsell-laptop-bag-1', 'upsell-mouse-1']
+  },
+  {
+    id: 'prod-laptop-3',
+    name: 'Lenovo ThinkBook 14',
+    price: 79999,
+    rating: 4.7,
+    matchScore: 95,
+    image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=600&q=80',
+    category: 'Laptops',
+    description: 'Professional business laptop built for productivity, portability, and longer work sessions.',
+    features: ['14-inch business laptop', 'Intel Core i7', '16GB RAM', '1TB SSD'],
+    suggestedUpsells: ['upsell-laptop-bag-1', 'upsell-mouse-1']
+  },
+  {
+    id: 'prod-gym-1',
+    name: 'ProForm Yoga Mat',
+    price: 2499,
+    rating: 4.8,
+    matchScore: 96,
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80',
+    category: 'Gym',
+    description: 'Non-slip exercise mat for yoga, stretching, and home workouts with extra cushioning.',
+    features: ['Extra thick cushion', 'Non-slip texture', 'Easy carry strap'],
+    suggestedUpsells: ['upsell-dumbbell-1', 'upsell-gym-bottle-1']
+  },
+  {
+    id: 'prod-gym-2',
+    name: 'Adjustable Dumbbell Set',
+    price: 7999,
+    rating: 4.7,
+    matchScore: 94,
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80',
+    category: 'Gym',
+    description: 'Compact adjustable dumbbell set for strength training at home or in the gym.',
+    features: ['Quick-change weights', 'Space-saving design', 'Durable steel finish'],
+    suggestedUpsells: ['upsell-gym-bottle-1', 'upsell-towel-1']
+  },
+  {
+    id: 'prod-gym-3',
+    name: 'Resistance Band Kit',
+    price: 1799,
+    rating: 4.6,
+    matchScore: 92,
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80',
+    category: 'Gym',
+    description: 'Lightweight resistance bands for mobility, power training, and full-body workouts.',
+    features: ['Multi-level resistance', 'Portable carry bag', 'Works for strength and mobility'],
+    suggestedUpsells: ['upsell-dumbbell-1', 'upsell-gym-bottle-1']
+  },
+
   // 2. Prompt Section 3 Upsell Products
   {
     id: 'upsell-socks-1',
@@ -227,6 +300,50 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80',
     category: 'Nutrition',
     description: 'Effervescent sugar-free electrolyte drink mix.',
+    isUpsell: true
+  },
+  {
+    id: 'upsell-laptop-bag-1',
+    name: 'Laptop Sleeve',
+    price: 2499,
+    rating: 4.8,
+    matchScore: 96,
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80',
+    category: 'Accessories',
+    description: 'Protective padded sleeve for 14-inch laptops and daily commuting.',
+    isUpsell: true
+  },
+  {
+    id: 'upsell-mouse-1',
+    name: 'Wireless Mouse',
+    price: 1499,
+    rating: 4.7,
+    matchScore: 95,
+    image: 'https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=600&q=80',
+    category: 'Accessories',
+    description: 'Ergonomic wireless mouse for smoother office and travel productivity.',
+    isUpsell: true
+  },
+  {
+    id: 'upsell-dumbbell-1',
+    name: 'Gym Gloves',
+    price: 1299,
+    rating: 4.5,
+    matchScore: 93,
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80',
+    category: 'Gym',
+    description: 'Grip-support gloves for lifting, comfort, and safer gym sessions.',
+    isUpsell: true
+  },
+  {
+    id: 'upsell-gym-bottle-1',
+    name: 'Gym Water Bottle',
+    price: 699,
+    rating: 4.6,
+    matchScore: 94,
+    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80',
+    category: 'Gym',
+    description: 'Leak-proof insulated bottle for workouts and training sessions.',
     isUpsell: true
   }
 ];

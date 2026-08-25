@@ -21,9 +21,6 @@ export const Navbar: React.FC = () => {
                   ShopPilot <span className="text-[#F97316]">AI</span>
                 </span>
               </div>
-              <p className="text-xs font-semibold text-[#17211F]/70 hidden sm:block">
-                Your AI Agent for Smarter Shopping & More Sales
-              </p>
             </div>
           </div>
 
@@ -75,14 +72,7 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* Right Status */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* AI Online Indicator */}
-            <div className="flex items-center space-x-2 bg-emerald-100/90 border border-emerald-300 text-[#14532D] px-3.5 py-1.5 rounded-full text-xs font-bold shadow-sm">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-              <span>AI Online 🟢</span>
-            </div>
-          </div>
+          <div className="flex items-center space-x-3 sm:space-x-4" />
 
         </div>
       </div>

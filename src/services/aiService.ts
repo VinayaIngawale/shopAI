@@ -21,45 +21,63 @@ export async function processAICustomerQuery(userPrompt: string): Promise<AISear
   const queryLower = userPrompt.toLowerCase();
   const budget = extractBudget(userPrompt);
 
-  // Exact Hackathon Flow Match for Running Shoes query
-  if (queryLower.includes('running') || queryLower.includes('shoes') || queryLower.includes('5000') || queryLower.includes('5,000')) {
-    const runningShoes = [
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-nike-1')!,
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-adidas-1')!,
-      INITIAL_PRODUCTS.find(p => p.id === 'prod-puma-1')!
-    ].filter(Boolean);
+  const stopWords = new Set([
+    'i', 'need', 'show', 'me', 'find', 'the', 'a', 'an', 'for', 'under', 'below',
+    'less', 'than', 'with', 'within', 'budget', 'and', 'or', 'of', 'my', 'please',
+    'products', 'product', 'items', 'item', 'looking', 'want', 'search', 'by', 'name'
+  ]);
 
-    const upsells = [
-      INITIAL_PRODUCTS.find(p => p.id === 'upsell-socks-1')!,
-      INITIAL_PRODUCTS.find(p => p.id === 'upsell-bottle-1')!
-    ].filter(Boolean);
+  const normalizedPrompt = queryLower
+    .replace(/[#]+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .trim();
 
-    return {
-      messageText: 'I found these products based on your budget and requirements.',
-      matchedProducts: runningShoes,
-      recommendedUpsells: upsells
-    };
-  }
+  const queryTerms = normalizedPrompt
+    .split(/\s+/)
+    .filter(term => term.length > 2 && !stopWords.has(term));
 
-  // Dynamic Keyword Search across synthetic product catalog
-  let matches = INITIAL_PRODUCTS.filter(p => !p.isUpsell).filter(p => {
+  const gymKeywords = ['gym', 'fitness', 'workout', 'training', 'exercise', 'strength', 'muscle'];
+  const isGymQuery = queryLower.includes('gym') || gymKeywords.some(keyword => queryLower.includes(keyword));
+
+  const matches = INITIAL_PRODUCTS.filter(p => !p.isUpsell).filter(p => {
     const matchesBudget = budget === null || p.price <= budget;
-    const matchesKeyword = queryLower.split(' ').some(term =>
-      term.length > 2 && (
-        p.name.toLowerCase().includes(term) ||
-        p.category.toLowerCase().includes(term) ||
-        p.description.toLowerCase().includes(term)
-      )
+    const normalizedProductName = p.name.toLowerCase();
+    const searchableText = `${normalizedProductName} ${p.category} ${p.description}`.toLowerCase();
+
+    const nameMatches =
+      normalizedPrompt.includes(normalizedProductName) ||
+      normalizedProductName.includes(normalizedPrompt) ||
+      (queryTerms.length > 0 && queryTerms.every(term => normalizedProductName.includes(term)));
+
+    const keywordMatches = queryTerms.length === 0 || queryTerms.some(term => searchableText.includes(term));
+
+    const gymCategoryMatches = isGymQuery && (
+      p.category.toLowerCase().includes('gym') ||
+      p.category.toLowerCase().includes('fitness') ||
+      p.category.toLowerCase().includes('apparel') ||
+      p.category.toLowerCase().includes('recovery') ||
+      p.category.toLowerCase().includes('nutrition') ||
+      searchableText.includes('gym') ||
+      searchableText.includes('workout') ||
+      searchableText.includes('fitness')
     );
-    return matchesBudget && matchesKeyword;
+
+    return matchesBudget && (nameMatches || keywordMatches || gymCategoryMatches);
   });
 
-  // Fallback to top products if query is general
-  if (matches.length === 0) {
-    matches = INITIAL_PRODUCTS.filter(p => !p.isUpsell).slice(0, 3);
-  }
-
   const defaultUpsells = INITIAL_PRODUCTS.filter(p => p.isUpsell).slice(0, 2);
+
+  if (matches.length === 0) {
+    const noMatchMessage = budget !== null
+      ? `Sorry, I could not find any items under your budget of ₹${budget.toLocaleString('en-IN')}.`
+      : 'Sorry, I could not find any matching products for your request.';
+
+    return {
+      messageText: noMatchMessage,
+      matchedProducts: [],
+      recommendedUpsells: []
+    };
+  }
 
   return {
     messageText: `I found ${matches.length} products based on your budget and requirements.`,

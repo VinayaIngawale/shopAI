@@ -21,11 +21,6 @@ export const HomePage: React.FC = () => {
           {/* Left Column: Heading, Description & Buttons */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs font-bold text-[#FACC15]">
-              <Sparkles className="w-4 h-4 text-[#FACC15]" />
-              <span>Track 01 – AI Growth & Agentic Commerce</span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
               Shop Smarter. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#FACC15]">

@@ -37,12 +37,10 @@ const MainContent: React.FC = () => {
             </div>
             <div>
               <span className="font-extrabold text-[#14532D] text-sm">ShopPilot AI</span>
-              <span className="text-xs text-[#17211F]/70 font-semibold ml-2">— Track 01 – AI Growth & Agentic Commerce</span>
             </div>
           </div>
 
           <div className="text-xs font-semibold text-[#17211F]/70 flex items-center space-x-2">
-            <span>Your AI Agent for Smarter Shopping & More Sales</span>
           </div>
         </div>
       </footer>
