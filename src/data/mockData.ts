@@ -160,6 +160,66 @@ export const INITIAL_PRODUCTS: Product[] = [
     suggestedUpsells: ['upsell-bottle-1']
   },
   {
+    id: 'prod-15',
+    name: 'New Balance Fresh Foam 1080',
+    price: 5799,
+    rating: 4.8,
+    matchScore: 90,
+    image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=600&q=80',
+    category: 'Running Shoes',
+    description: 'Soft, supportive daily trainer designed for comfortable long-distance runs.',
+    features: ['Fresh Foam X Midsole', 'Breathable Knit Upper', 'Heel Cushioning'],
+    suggestedUpsells: ['upsell-socks-1', 'upsell-bottle-1']
+  },
+  {
+    id: 'prod-16',
+    name: 'Skechers Go Run Ride',
+    price: 2899,
+    rating: 4.3,
+    matchScore: 86,
+    image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80',
+    category: 'Running Shoes',
+    description: 'Affordable lightweight running shoes with responsive cushioning for daily training.',
+    features: ['Responsive Foam', 'Mesh Upper', 'Flexible Traction'],
+    suggestedUpsells: ['upsell-socks-1']
+  },
+  {
+    id: 'prod-17',
+    name: 'Decathlon Jogflow 100',
+    price: 2499,
+    rating: 4.2,
+    matchScore: 84,
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80',
+    category: 'Running Shoes',
+    description: 'Comfortable beginner running shoe with reliable grip for road and treadmill workouts.',
+    features: ['Soft Foam Cushioning', 'Road Grip Sole', 'Lightweight Build'],
+    suggestedUpsells: ['upsell-bottle-1']
+  },
+  {
+    id: 'prod-18',
+    name: 'Brooks Ghost 15',
+    price: 6499,
+    rating: 4.7,
+    matchScore: 92,
+    image: 'https://images.unsplash.com/photo-1556637640-2c80d3201be8?auto=format&fit=crop&w=600&q=80',
+    category: 'Running Shoes',
+    description: 'Smooth, balanced road runner with dependable cushioning for everyday mileage.',
+    features: ['DNA Loft Cushioning', 'Segmented Crash Pad', 'Durable Outsole'],
+    suggestedUpsells: ['upsell-socks-1', 'upsell-bottle-1']
+  },
+  {
+    id: 'prod-19',
+    name: 'ASICS Novablast 4',
+    price: 7299,
+    rating: 4.8,
+    matchScore: 94,
+    image: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80',
+    category: 'Running Shoes',
+    description: 'High-energy performance trainer built for fast sessions and responsive daily runs.',
+    features: ['FF BLAST Plus Foam', 'Engineered Woven Upper', 'AHAR Rubber Outsole'],
+    suggestedUpsells: ['upsell-socks-1', 'upsell-bottle-1']
+  },
+  {
     id: 'prod-6',
     name: 'Garmin Forerunner 55',
     price: 14999,
@@ -179,6 +239,66 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=600&q=80',
     category: 'Fitness Wearables',
     description: 'Advanced fitness tracker with Built-in GPS, 40+ exercise modes, and YouTube Music controls.',
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-20',
+    name: 'Samsung Galaxy Fit3',
+    price: 3999,
+    rating: 4.5,
+    matchScore: 91,
+    image: 'https://images.unsplash.com/photo-1557438159-51eec7a6c9e8?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Slim fitness band with sleep tracking, heart-rate monitoring, and a bright AMOLED display.',
+    features: ['AMOLED Display', 'Sleep Coaching', '5ATM Water Resistance'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-21',
+    name: 'Amazfit Bip 5',
+    price: 5499,
+    rating: 4.4,
+    matchScore: 89,
+    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Large-screen fitness smartwatch with GPS, health tracking, and long battery life.',
+    features: ['Built-in GPS', 'Health Monitoring', 'Up to 10-Day Battery'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-22',
+    name: 'Noise ColorFit Pulse 4',
+    price: 2999,
+    rating: 4.2,
+    matchScore: 85,
+    image: 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Budget-friendly smartwatch with activity tracking, heart-rate alerts, and workout modes.',
+    features: ['Activity Tracking', 'Heart-Rate Alerts', 'Multiple Sports Modes'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-23',
+    name: 'Apple Watch SE',
+    price: 24999,
+    rating: 4.8,
+    matchScore: 95,
+    image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Smart fitness watch with advanced workout metrics, crash detection, and seamless iPhone integration.',
+    features: ['Workout Metrics', 'Crash Detection', 'Heart Health Notifications'],
+    suggestedUpsells: ['upsell-strap-1']
+  },
+  {
+    id: 'prod-24',
+    name: 'Polar Pacer Pro',
+    price: 18999,
+    rating: 4.7,
+    matchScore: 93,
+    image: 'https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=600&q=80',
+    category: 'Fitness Wearables',
+    description: 'Lightweight training watch with precise GPS, recovery insights, and guided running plans.',
+    features: ['Training Load', 'Recovery Tracking', 'Precision GPS'],
     suggestedUpsells: ['upsell-strap-1']
   },
   {
