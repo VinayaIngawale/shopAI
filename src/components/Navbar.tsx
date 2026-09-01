@@ -1,6 +1,6 @@
 import React from 'react';
 import { useShop } from '../context/ShopContext';
-import { Bot, TrendingUp, Sparkles, Home, Play } from 'lucide-react';
+import { Bot, TrendingUp, Sparkles, Home, Play, Grid3x3 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { activeTab, setActiveTab, runAiDemo } = useShop();
@@ -48,6 +48,18 @@ export const Navbar: React.FC = () => {
             >
               <Sparkles className="w-4 h-4 text-[#FACC15]" />
               <span>AI Shopping</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('categories')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+                activeTab === 'categories'
+                  ? 'bg-[#14532D] text-white shadow-sm'
+                  : 'text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0]'
+              }`}
+            >
+              <Grid3x3 className="w-4 h-4 text-[#F97316]" />
+              <span>Categories</span>
             </button>
 
             <button

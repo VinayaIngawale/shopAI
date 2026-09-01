@@ -6,6 +6,7 @@ import { ShoppingPage } from './components/ShoppingPage';
 import { GrowthDashboard } from './components/GrowthDashboard';
 import { AddSaleView } from './components/AddSaleView';
 import { SalesHistoryView } from './components/SalesHistoryView';
+import { CategoryBrowser } from './components/CategoryBrowser';
 import { UpsellModal } from './components/UpsellModal';
 import { CartModal } from './components/CartModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
@@ -25,6 +26,7 @@ const MainContent: React.FC = () => {
           {activeTab === 'dashboard' && <GrowthDashboard />}
           {activeTab === 'add-sale' && <AddSaleView />}
           {activeTab === 'sales-history' && <SalesHistoryView />}
+          {activeTab === 'categories' && <CategoryBrowser />}
         </main>
       </div>
 

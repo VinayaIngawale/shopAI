@@ -62,5 +62,5 @@ export interface DbOrder {
   created_at: string;
 }
 
-export type ActiveTab = 'home' | 'ai-shopping' | 'dashboard' | 'add-sale' | 'sales-history';
+export type ActiveTab = 'home' | 'ai-shopping' | 'dashboard' | 'add-sale' | 'sales-history' | 'categories';
 
