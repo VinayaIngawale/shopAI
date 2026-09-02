@@ -17,7 +17,7 @@ const MainContent: React.FC = () => {
   const { activeTab } = useShop();
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#FFF9F0] text-[#17211F] selection:bg-[#F97316] selection:text-white">
+    <div className="min-h-screen flex flex-col justify-between bg-[#F3F7F4] text-[#1E2D2B] selection:bg-[#E46952] selection:text-white">
       <div>
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">

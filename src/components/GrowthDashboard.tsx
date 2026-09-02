@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useShop } from '../context/ShopContext';
 import { DbOrder } from '../types';
+import { INITIAL_PRODUCTS } from '../data/mockData';
 import { DollarSign, ShoppingBag, TrendingUp, Sparkles, ArrowUpRight, BarChart3, PlusCircle, Bot, Trash2, Eye, RefreshCw } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 
@@ -9,6 +10,16 @@ export const GrowthDashboard: React.FC = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<DbOrder | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [orderFilter, setOrderFilter] = useState<'all' | 'ai' | 'standard'>('all');
+
+  const visibleOrders = useMemo(() => {
+    const filtered = dbOrders.filter(order => {
+      if (orderFilter === 'ai') return order.ai_assisted;
+      if (orderFilter === 'standard') return !order.ai_assisted;
+      return true;
+    });
+    return filtered.slice(0, 6);
+  }, [dbOrders, orderFilter]);
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Delete this order record? Metrics will update.')) {
@@ -65,6 +76,15 @@ export const GrowthDashboard: React.FC = () => {
       'With AI': growthStats.totalRevenue
     }
   ];
+
+  const categorySalesData = useMemo(() => {
+    const totals = new Map<string, number>();
+    dbOrders.forEach(order => {
+      const product = INITIAL_PRODUCTS.find(item => order.product_name.includes(item.name));
+      if (product) totals.set(product.category, (totals.get(product.category) || 0) + Number(order.product_price || 0));
+    });
+    return Array.from(totals, ([category, sales]) => ({ category, sales })).sort((a, b) => b.sales - a.sales).slice(0, 8);
+  }, [dbOrders]);
 
   return (
     <div className="space-y-8 py-6">
@@ -215,6 +235,24 @@ export const GrowthDashboard: React.FC = () => {
 
       </div>
 
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#14532D]/10 shadow-card">
+        <div className="flex items-center gap-2 border-b border-cream-200 pb-4">
+          <BarChart3 className="w-5 h-5 text-[#F97316]" />
+          <h2 className="text-xl font-extrabold text-[#14532D]">Sales by Category</h2>
+        </div>
+        <div className="h-72 w-full pt-5">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={categorySalesData} margin={{ top: 10, right: 20, left: 10, bottom: 45 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#FDF1DC" />
+              <XAxis dataKey="category" angle={-25} textAnchor="end" interval={0} stroke="#17211F" fontSize={11} />
+              <YAxis stroke="#17211F" fontSize={12} tickFormatter={(value) => `₹${(value / 1000).toFixed(0)}k`} />
+              <Tooltip formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Sales']} />
+              <Bar dataKey="sales" fill="#14532D" radius={[8, 8, 0, 0]} barSize={42} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       {/* Orders History Table */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#14532D]/10 shadow-card space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-cream-200 pb-4">
@@ -236,6 +274,18 @@ export const GrowthDashboard: React.FC = () => {
           </button>
         </div>
 
+        <div className="flex flex-wrap gap-2">
+          {([['all', 'All orders'], ['ai', 'AI assisted'], ['standard', 'Standard sales']] as const).map(([value, label]) => (
+            <button
+              key={value}
+              onClick={() => setOrderFilter(value)}
+              className={`rounded-xl px-3 py-2 text-xs font-black transition-colors ${orderFilter === value ? 'bg-[#14532D] text-white' : 'bg-[#FFF9F0] text-[#14532D] border border-[#14532D]/10 hover:border-[#F97316]'}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -250,7 +300,7 @@ export const GrowthDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-cream-200 text-xs font-semibold text-[#17211F]">
-              {dbOrders.slice(0, 6).map(ord => {
+              {visibleOrders.map(ord => {
                 const total = Number(ord.product_price) + Number(ord.upsell_price);
                 return (
                   <tr key={ord.id} className="hover:bg-[#FFF9F0]/60 transition-colors">

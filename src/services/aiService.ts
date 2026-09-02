@@ -81,13 +81,13 @@ export async function processAICustomerQuery(
 
   const laptopKeywords = ['laptop', 'notebook', 'pc', 'ultrabook'];
   const mobileKeywords = ['mobile', 'phone', 'smartphone', 'android', 'iphone', 'galaxy'];
-  const electricalKeywords = ['electrical', 'electronics', 'charger', 'power bank', 'speaker', 'bulb', 'lamp', 'adapter', 'fan', 'smart home'];
+  const electricalKeywords = ['electrical', 'electronics', 'charger', 'power bank', 'speaker', 'bulb', 'lamp', 'adapter', 'fan', 'smart home', 'tv', 'toothbrush', 'hair dryer', 'rice cooker', 'induction', 'desk lamp'];
   const accessoryKeywords = ['accessory', 'accessories', 'bag', 'backpack', 'case', 'sunglasses', 'cable', 'hub', 'organizer', 'travel', 'charger'];
   const homeApplianceKeywords = ['home appliance', 'home appliances', 'appliance', 'fan', 'heater', 'purifier', 'air fryer', 'mixer', 'grinder', 'kitchen'];
-  const beautyKeywords = ['beauty', 'beauty products', 'cosmetic', 'cosmetics', 'skincare', 'serum', 'foundation', 'lipstick', 'makeup'];
+  const beautyKeywords = ['beauty', 'beauty products', 'cosmetic', 'cosmetics', 'skincare', 'serum', 'foundation', 'lipstick', 'makeup', 'moisturizer', 'mascara', 'perfume', 'fragrance'];
   const furnitureKeywords = ['furniture', 'chair', 'table', 'sofa', 'desk', 'wardrobe', 'cabinet', 'shelf', 'bed'];
-  const toyKeywords = ['toy', 'toys', 'plaything', 'stuffed animal', 'remote control car', 'blocks', 'teddy', 'plush', 'bear'];
-  const giftKeywords = ['gift', 'gifts', 'gift item', 'gift items', 'present', 'hamper', 'gift box', 'wrapped gift'];
+  const toyKeywords = ['toy', 'toys', 'plaything', 'stuffed animal', 'remote control car', 'blocks', 'teddy', 'plush', 'bear', 'puzzle', 'board game', 'train', 'robot'];
+  const giftKeywords = ['gift', 'gifts', 'gift item', 'gift items', 'present', 'hamper', 'gift box', 'wrapped gift', 'bouquet', 'chocolate', 'mug', 'watch'];
 
   const isGymQuery =
     queryLower.includes('gym') ||
@@ -150,8 +150,6 @@ export async function processAICustomerQuery(
         (
           p.category.toLowerCase().includes('gym') ||
           p.category.toLowerCase().includes('fitness') ||
-          p.category.toLowerCase().includes('apparel') ||
-          p.category.toLowerCase().includes('recovery') ||
           p.category.toLowerCase().includes('nutrition') ||
           searchableText.includes('gym') ||
           searchableText.includes('workout') ||
@@ -189,6 +187,11 @@ export async function processAICustomerQuery(
           searchableText.includes('bulb') ||
           searchableText.includes('adapter') ||
           searchableText.includes('smart home')
+          || searchableText.includes('tv')
+          || searchableText.includes('toothbrush')
+          || searchableText.includes('hair dryer')
+          || searchableText.includes('rice cooker')
+          || searchableText.includes('induction')
         );
 
       const accessoryCategoryMatches =
@@ -227,6 +230,9 @@ export async function processAICustomerQuery(
           searchableText.includes('makeup') ||
           searchableText.includes('skincare') ||
           searchableText.includes('cosmetic')
+          || searchableText.includes('moisturizer')
+          || searchableText.includes('mascara')
+          || searchableText.includes('perfume')
         );
 
       const furnitureCategoryMatches =
@@ -254,6 +260,10 @@ export async function processAICustomerQuery(
           searchableText.includes('bear') ||
           searchableText.includes('stuffed') ||
           searchableText.includes('car')
+          || searchableText.includes('puzzle')
+          || searchableText.includes('game')
+          || searchableText.includes('train')
+          || searchableText.includes('robot')
         );
 
       const giftCategoryMatches =
@@ -265,6 +275,10 @@ export async function processAICustomerQuery(
           searchableText.includes('hamper') ||
           searchableText.includes('candle') ||
           searchableText.includes('frame')
+          || searchableText.includes('bouquet')
+          || searchableText.includes('chocolate')
+          || searchableText.includes('mug')
+          || searchableText.includes('watch')
         );
 
       const exactCategoryMatch =

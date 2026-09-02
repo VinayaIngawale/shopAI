@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext';
-import { X, Trash2, ShoppingBag, CheckCircle, Sparkles } from 'lucide-react';
+import { X, Trash2, ShoppingBag, CheckCircle, Sparkles, Minus, Plus } from 'lucide-react';
 
 export const CartModal: React.FC = () => {
-  const { isCartOpen, setIsCartOpen, cart, removeFromCart, saveCurrentCartAsOrder } = useShop();
+  const { isCartOpen, setIsCartOpen, cart, updateCartQuantity, removeFromCart, saveCurrentCartAsOrder } = useShop();
   const [customerName, setCustomerName] = useState('Hackathon Customer');
   const [customerEmail, setCustomerEmail] = useState('demo@shoppilot.ai');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [shippingAddress, setShippingAddress] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isCartOpen) return null;
@@ -14,8 +16,15 @@ export const CartModal: React.FC = () => {
 
   const handleCheckout = async () => {
     if (cart.length === 0 || isSubmitting) return;
+    if (!customerPhone.trim() || !shippingAddress.trim()) return;
     setIsSubmitting(true);
     try {
+      localStorage.setItem('shoppilot-last-checkout', JSON.stringify({
+        customerName,
+        customerEmail,
+        customerPhone,
+        shippingAddress
+      }));
       await saveCurrentCartAsOrder(customerName || 'ShopPilot Customer', customerEmail || 'demo@shoppilot.ai');
     } finally {
       setIsSubmitting(false);
@@ -66,10 +75,29 @@ export const CartModal: React.FC = () => {
                       alt={item.product.name}
                       className="w-14 h-14 object-cover rounded-xl"
                     />
-                    <div>
+                    <div className="min-w-0">
                       <h4 className="font-bold text-[#17211F] text-sm">{item.product.name}</h4>
                       <div className="text-sm font-black text-[#14532D] mt-0.5">
                         ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <button
+                          type="button"
+                          onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
+                          className="p-1 rounded-md border border-[#14532D]/20 text-[#14532D] hover:bg-[#FFF9F0]"
+                          aria-label={`Decrease ${item.product.name} quantity`}
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="min-w-5 text-center text-xs font-black">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
+                          className="p-1 rounded-md border border-[#14532D]/20 text-[#14532D] hover:bg-[#FFF9F0]"
+                          aria-label={`Increase ${item.product.name} quantity`}
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
                       </div>
                       {item.addedAsUpsell && (
                         <span className="inline-flex items-center space-x-1 bg-orange-50 text-[#F97316] border border-[#F97316]/20 text-[10px] font-black px-2 py-0.5 rounded-full mt-1">
@@ -111,6 +139,28 @@ export const CartModal: React.FC = () => {
                     className="w-full px-3 py-1.5 rounded-lg border border-cream-200 text-xs font-bold text-[#17211F]"
                   />
                 </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-[#17211F]/70 mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={customerPhone}
+                    onChange={e => setCustomerPhone(e.target.value)}
+                    placeholder="e.g. 9876543210"
+                    className="w-full px-3 py-1.5 rounded-lg border border-cream-200 text-xs font-bold text-[#17211F]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-[#17211F]/70 mb-1">Shipping Address</label>
+                  <textarea
+                    required
+                    value={shippingAddress}
+                    onChange={e => setShippingAddress(e.target.value)}
+                    placeholder="Enter delivery address"
+                    rows={2}
+                    className="w-full px-3 py-1.5 rounded-lg border border-cream-200 text-xs font-bold text-[#17211F] resize-none"
+                  />
+                </div>
               </div>
             </>
           )}
@@ -128,8 +178,8 @@ export const CartModal: React.FC = () => {
 
             <button
               onClick={handleCheckout}
-              disabled={isSubmitting}
-              className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2"
+              disabled={isSubmitting || !customerPhone.trim() || !shippingAddress.trim()}
+              className="w-full bg-[#F97316] hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2"
             >
               <CheckCircle className="w-5 h-5 text-[#FACC15]" />
               <span>{isSubmitting ? 'Processing Order...' : 'Proceed to Checkout'}</span>

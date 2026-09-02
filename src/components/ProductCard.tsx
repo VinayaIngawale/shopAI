@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../types';
 import { useShop } from '../context/ShopContext';
-import { Star, ShoppingCart, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Star, ShoppingCart, Sparkles, CheckCircle2, Heart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +10,8 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted = false }) => {
   const { openUpsellModal, cart } = useShop();
+  const [showDetails, setShowDetails] = React.useState(false);
+  const [isFavorite, setIsFavorite] = React.useState(false);
 
   const isInCart = cart.some(item => item.product.id === product.id);
 
@@ -25,12 +27,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted =
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-contain p-2 transition-transform duration-500"
           />
           <div className="absolute top-3 right-3 bg-[#14532D]/90 text-[#FACC15] text-xs font-black px-3 py-1.5 rounded-full backdrop-blur-md flex items-center space-x-1 shadow-md">
             <Sparkles className="w-3.5 h-3.5" />
             <span>AI Match: {product.matchScore}%</span>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsFavorite(!isFavorite)}
+            className="absolute top-3 left-3 p-2 rounded-full bg-white/90 text-rose-500 shadow-sm hover:bg-white"
+            aria-label={isFavorite ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+          >
+            <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+          </button>
 
           <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md text-[#17211F] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1 shadow-sm">
             <Star className="w-3.5 h-3.5 fill-[#FACC15] text-[#FACC15]" />
@@ -49,6 +60,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted =
           <p className="text-xs text-[#17211F]/70 line-clamp-2 mb-4 leading-relaxed font-semibold">
             {product.description}
           </p>
+          <button
+            type="button"
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-xs font-black text-[#F97316] hover:text-[#EA580C]"
+          >
+            {showDetails ? 'Hide details' : 'View details'}
+          </button>
+          {showDetails && product.features && (
+            <ul className="mt-3 space-y-1 text-xs font-semibold text-[#17211F]/75">
+              {product.features.map(feature => <li key={feature}>• {feature}</li>)}
+            </ul>
+          )}
         </div>
       </div>
 

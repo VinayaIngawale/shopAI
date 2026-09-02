@@ -20,6 +20,7 @@ interface ShopContextType {
   setActiveTab: (tab: ActiveTab) => void;
   cart: CartItem[];
   addToCart: (product: Product, addedAsUpsell?: boolean) => void;
+  updateCartQuantity: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
   isCartOpen: boolean;
@@ -63,8 +64,19 @@ const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const savedCart = localStorage.getItem('shoppilot-cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    localStorage.setItem('shoppilot-cart', JSON.stringify(cart));
+  }, [cart]);
 
   // Upsell state
   const [isUpsellModalOpen, setIsUpsellModalOpen] = useState<boolean>(false);
@@ -226,6 +238,17 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart(prev => prev.filter(item => item.product.id !== productId));
   };
 
+  const updateCartQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+
+    setCart(prev => prev.map(item =>
+      item.product.id === productId ? { ...item, quantity } : item
+    ));
+  };
+
   const clearCart = () => {
     setCart([]);
   };
@@ -329,6 +352,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setActiveTab,
         cart,
         addToCart,
+        updateCartQuantity,
         removeFromCart,
         clearCart,
         isCartOpen,
