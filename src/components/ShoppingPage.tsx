@@ -187,6 +187,19 @@ export const ShoppingPage: React.FC = () => {
         <div ref={chatEndRef} />
       </div>
 
+      {cart.length > 0 && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => setIsCartOpen(true)}
+            className="inline-flex items-center gap-2 rounded-2xl bg-[#14532D] px-4 py-3 text-sm font-black text-white shadow-lg transition-all hover:bg-[#092E16]"
+          >
+            <ShoppingBag className="h-4 w-4 text-[#FACC15]" />
+            <span>View Cart</span>
+          </button>
+        </div>
+      )}
+
       {/* Chat Input Bar */}
       <form onSubmit={handleSubmit} className="sticky bottom-6 z-30">
         <div className="bg-white p-2.5 rounded-2xl border border-[#14532D]/20 shadow-2xl flex items-center space-x-3">

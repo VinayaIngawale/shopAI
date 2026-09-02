@@ -345,7 +345,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 8999,
     rating: 4.7,
     matchScore: 94,
-    image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80',
     category: 'Furniture',
     description: 'Solid walnut coffee table that blends warmth, durability, and minimalist elegance.',
     features: ['Solid Finish', 'Minimalist', 'Scratch Resistant', 'Living Room Essential'],

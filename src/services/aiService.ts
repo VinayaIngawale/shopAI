@@ -86,7 +86,7 @@ export async function processAICustomerQuery(
   const homeApplianceKeywords = ['home appliance', 'home appliances', 'appliance', 'fan', 'heater', 'purifier', 'air fryer', 'mixer', 'grinder', 'kitchen'];
   const beautyKeywords = ['beauty', 'beauty products', 'cosmetic', 'cosmetics', 'skincare', 'serum', 'foundation', 'lipstick', 'makeup'];
   const furnitureKeywords = ['furniture', 'chair', 'table', 'sofa', 'desk', 'wardrobe', 'cabinet', 'shelf', 'bed'];
-  const toyKeywords = ['toy', 'toys', 'plaything', 'stuffed animal', 'remote control car', 'blocks'];
+  const toyKeywords = ['toy', 'toys', 'plaything', 'stuffed animal', 'remote control car', 'blocks', 'teddy', 'plush', 'bear'];
   const giftKeywords = ['gift', 'gifts', 'gift item', 'gift items', 'present', 'hamper', 'gift box', 'wrapped gift'];
 
   const isGymQuery =
@@ -250,6 +250,9 @@ export async function processAICustomerQuery(
           searchableText.includes('toy') ||
           searchableText.includes('blocks') ||
           searchableText.includes('teddy') ||
+          searchableText.includes('plush') ||
+          searchableText.includes('bear') ||
+          searchableText.includes('stuffed') ||
           searchableText.includes('car')
         );
 
@@ -386,8 +389,8 @@ export async function processAICustomerQuery(
     }
   }
 
-  // General fallback only when no budget was specified
-  if (matches.length === 0 && budget === null) {
+  // General fallback only for completely empty input; otherwise return a true not-found.
+  if (matches.length === 0 && budget === null && normalizedPrompt.length === 0) {
     matches = INITIAL_PRODUCTS
       .filter((p) => !p.isUpsell)
       .slice(0, 3);
