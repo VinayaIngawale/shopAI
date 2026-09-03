@@ -51,7 +51,7 @@ export const ShoppingPage: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 py-6">
       
       {/* Page Header */}
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#14532D]/10 shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-[#F5F7F4] p-6 sm:p-8 rounded-2xl border border-[#0F3D2B]/10 shadow-none flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
             <span className="bg-emerald-100 text-[#14532D] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-300">
@@ -73,7 +73,7 @@ export const ShoppingPage: React.FC = () => {
             <button
               key={idx}
               onClick={() => sendChatMessage(prompt)}
-              className="bg-[#FFF9F0] hover:bg-cream-200 text-[#14532D] border border-[#14532D]/10 text-xs font-bold px-3 py-1.5 rounded-xl transition-all shadow-sm"
+              className="bg-[#F1F6F2] hover:bg-[#E5EEE7] text-[#0F3D2B] border border-[#0F3D2B]/10 text-xs font-bold px-3 py-1.5 rounded-xl transition-all shadow-none"
             >
               “{prompt}”
             </button>
@@ -106,10 +106,10 @@ export const ShoppingPage: React.FC = () => {
 
               {/* Text Bubble */}
               <div
-                className={`p-4 rounded-2xl text-sm font-bold shadow-sm ${
+                className={`p-4 rounded-2xl text-sm font-bold shadow-none ${
                   msg.sender === 'user'
                     ? 'bg-[#F97316] text-white rounded-tr-none'
-                    : 'bg-white text-[#17211F] border border-[#14532D]/10 rounded-tl-none'
+                    : 'bg-[#F5F7F4] text-[#17211F] border border-[#0F3D2B]/10 rounded-tl-none'
                 }`}
               >
                 <p className="leading-relaxed">{msg.text}</p>
@@ -139,7 +139,7 @@ export const ShoppingPage: React.FC = () => {
 
         {/* AI Thinking Spinner */}
         {isAiThinking && (
-          <div className="flex items-center space-x-3 bg-white p-4 rounded-2xl border border-[#14532D]/10 max-w-xs shadow-sm">
+          <div className="flex items-center space-x-3 bg-[#F5F7F4] p-4 rounded-2xl border border-[#0F3D2B]/10 max-w-xs shadow-none">
             <Bot className="w-5 h-5 text-[#14532D] animate-spin" />
             <span className="text-xs font-extrabold text-[#14532D]">
               ShopPilot AI is matching products & add-ons...
@@ -152,13 +152,13 @@ export const ShoppingPage: React.FC = () => {
 
       {/* Chat Input Bar */}
       <form onSubmit={handleSubmit} className="sticky bottom-6 z-30">
-        <div className="bg-white p-2.5 rounded-2xl border border-[#14532D]/20 shadow-2xl flex items-center space-x-3">
+        <div className="bg-[#F5F7F4] p-2.5 rounded-2xl border border-[#0F3D2B]/10 shadow-none flex items-center space-x-3">
           <input
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask for products (e.g. 'I need running shoes under ₹5,000')..."
-            className="flex-1 px-4 py-3 bg-[#FFF9F0] rounded-xl text-[#17211F] font-bold placeholder-[#17211F]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#14532D] border border-cream-200"
+            className="flex-1 px-4 py-3 bg-white rounded-xl text-[#17211F] font-bold placeholder-[#17211F]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F3D2B] border border-[#0F3D2B]/10"
           />
           <button
             type="submit"

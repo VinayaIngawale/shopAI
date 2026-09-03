@@ -17,8 +17,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted =
 
   return (
     <div
-      className={`bg-white rounded-2xl border transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-card hover:shadow-xl hover:-translate-y-1 ${
-        highlighted ? 'ring-2 ring-[#F97316] border-transparent scale-[1.02]' : 'border-[#14532D]/10'
+      className={`bg-white rounded-2xl border transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-none hover:shadow-none hover:-translate-y-0.5 ${
+        highlighted ? 'ring-2 ring-[#F97316] border-transparent scale-[1.01]' : 'border-[#0F3D2B]/10'
       }`}
     >
       <div>

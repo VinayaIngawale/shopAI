@@ -13,18 +13,18 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FFF9F0]/90 backdrop-blur-md border-b border-[#14532D]/10 transition-all">
+    <header className="sticky top-0 z-40 bg-[#F7F8F5]/90 backdrop-blur-md border-b border-[#0F3D2B]/10 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo & Tagline */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
-            <div className="w-11 h-11 rounded-2xl bg-[#14532D] flex items-center justify-center text-[#FACC15] shadow-md transform hover:scale-105 transition-transform">
+            <div className="w-11 h-11 rounded-2xl bg-[#0F3D2B] flex items-center justify-center text-[#FACC15] shadow-sm transform hover:scale-105 transition-transform">
               <Bot className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-2xl tracking-tight text-[#14532D]">
+                <span className="font-extrabold text-2xl tracking-tight text-[#0F3D2B]">
                   ShopPilot <span className="text-[#F97316]">AI</span>
                 </span>
               </div>
@@ -32,13 +32,13 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Navigation Links: Home | AI Shopping | Growth Dashboard | Demo */}
-          <nav className="hidden md:flex items-center space-x-1.5 bg-white/90 p-1.5 rounded-2xl border border-[#14532D]/10 shadow-sm">
+          <nav className="hidden md:flex items-center space-x-1.5 bg-white/90 p-1.5 rounded-2xl border border-[#0F3D2B]/10 shadow-none">
             <button
               onClick={() => setActiveTab('home')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 activeTab === 'home'
-                  ? 'bg-[#14532D] text-white shadow-sm'
-                  : 'text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0]'
+                  ? 'bg-[#0F3D2B] text-white shadow-sm'
+                  : 'text-[#17211F] hover:text-[#0F3D2B] hover:bg-[#F3F7F4]'
               }`}
             >
               <Home className="w-4 h-4" />
@@ -49,8 +49,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setActiveTab('ai-shopping')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 activeTab === 'ai-shopping'
-                  ? 'bg-[#14532D] text-white shadow-sm'
-                  : 'text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0]'
+                  ? 'bg-[#0F3D2B] text-white shadow-sm'
+                  : 'text-[#17211F] hover:text-[#0F3D2B] hover:bg-[#F3F7F4]'
               }`}
             >
               <Sparkles className="w-4 h-4 text-[#FACC15]" />
@@ -61,8 +61,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setActiveTab('categories')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 activeTab === 'categories'
-                  ? 'bg-[#14532D] text-white shadow-sm'
-                  : 'text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0]'
+                  ? 'bg-[#0F3D2B] text-white shadow-sm'
+                  : 'text-[#17211F] hover:text-[#0F3D2B] hover:bg-[#F3F7F4]'
               }`}
             >
               <Grid3x3 className="w-4 h-4 text-[#F97316]" />
@@ -73,8 +73,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setActiveTab('dashboard')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 activeTab === 'dashboard'
-                  ? 'bg-[#14532D] text-white shadow-sm'
-                  : 'text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0]'
+                  ? 'bg-[#0F3D2B] text-white shadow-sm'
+                  : 'text-[#17211F] hover:text-[#0F3D2B] hover:bg-[#F3F7F4]'
               }`}
             >
               <TrendingUp className="w-4 h-4 text-[#F97316]" />
@@ -83,7 +83,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold text-[#17211F] hover:text-[#14532D] hover:bg-[#FFF9F0] transition-all"
+              className="relative flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-bold text-[#17211F] hover:text-[#0F3D2B] hover:bg-[#F3F7F4] transition-all"
               title="Open shopping cart"
             >
               <ShoppingBag className="w-4 h-4 text-[#F97316]" />
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={() => setIsCartOpen(true)}
-              className="md:hidden relative p-2.5 rounded-xl bg-white border border-[#14532D]/10 text-[#14532D]"
+              className="md:hidden relative p-2.5 rounded-xl bg-white border border-[#0F3D2B]/10 text-[#0F3D2B]"
               title="Open shopping cart"
             >
               <ShoppingBag className="w-5 h-5" />
@@ -120,7 +120,7 @@ export const Navbar: React.FC = () => {
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-white border border-[#14532D]/10 text-[#14532D]"
+              className="md:hidden p-2.5 rounded-xl bg-white border border-[#0F3D2B]/10 text-[#0F3D2B]"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

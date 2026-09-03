@@ -7,6 +7,89 @@ export interface AISearchResult {
   recommendedUpsells: Product[];
 }
 
+function normalizeForMatch(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function levenshteinDistance(a: string, b: string): number {
+  const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+
+  for (let i = 0; i <= a.length; i += 1) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j += 1) dp[0][j] = j;
+
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return dp[a.length][b.length];
+}
+
+function getSimilarityScore(a: string, b: string): number {
+  const left = normalizeForMatch(a);
+  const right = normalizeForMatch(b);
+
+  if (!left || !right) return 0;
+  if (left === right) return 1;
+  if (left.includes(right) || right.includes(left)) return 0.9;
+
+  const termSignature = left.replace(/[aeiou]/g, '');
+  const wordSignature = right.replace(/[aeiou]/g, '');
+  if (termSignature === wordSignature) return 0.86;
+  if (wordSignature.includes(termSignature) || termSignature.includes(wordSignature)) return 0.8;
+
+  const maxLen = Math.max(left.length, right.length);
+  if (maxLen === 0) return 0;
+
+  const distance = levenshteinDistance(left, right);
+  const score = 1 - distance / maxLen;
+  return score > 0 ? score : 0;
+}
+
+function hasApproximateNameMatch(term: string, productName: string): boolean {
+  const normalizedTerm = normalizeForMatch(term);
+  if (!normalizedTerm) return false;
+
+  const candidateWords = productName
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+
+  return candidateWords.some((word) => {
+    const score = getSimilarityScore(normalizedTerm, normalizeForMatch(word));
+    return score >= 0.7;
+  });
+}
+
+function getProductMatchScore(queryText: string, product: Product): number {
+  const queryTerms = queryText
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((term) => term.length > 1 && !['i', 'need', 'show', 'me', 'find', 'the', 'a', 'an', 'for', 'under', 'below', 'less', 'than', 'with', 'within', 'budget', 'and', 'or', 'of', 'my', 'please', 'products', 'product', 'items', 'item', 'looking', 'want', 'search', 'by', 'name'].includes(term));
+
+  const searchableText = `${product.name} ${product.category} ${product.description}`.toLowerCase();
+
+  let best = 0;
+
+  queryTerms.forEach((term) => {
+    const termScore = Math.max(
+      getSimilarityScore(term, product.name),
+      ...searchableText.split(/[^a-z0-9]+/).filter(Boolean).map((word) => getSimilarityScore(term, word))
+    );
+
+    if (termScore > best) best = termScore;
+  });
+
+  return best;
+}
+
 function extractBudget(query: string): number | null {
   const budgetMatch =
     query.match(
@@ -65,7 +148,31 @@ export async function processAICustomerQuery(
     .replace(/[^a-z0-9\s]/g, ' ')
     .trim();
 
-  const queryTerms = normalizedPrompt
+  const aliasMap: Record<string, string[]> = {
+    phne: ['phone', 'iphone'],
+    lptop: ['laptop'],
+    lapop: ['laptop'],
+    tddy: ['teddy'],
+    tedy: ['teddy'],
+    shose: ['shoes'],
+    shoe: ['shoes'],
+    sunglases: ['sunglasses'],
+    sunglass: ['sunglasses'],
+    moble: ['mobile'],
+    phnoe: ['phone'],
+    lapto: ['laptop'],
+  };
+
+  const expandedPrompt = normalizedPrompt
+    .split(/\s+/)
+    .flatMap((term) => {
+      const key = normalizeForMatch(term);
+      const matches = aliasMap[key] ?? [];
+      return [term, ...matches];
+    })
+    .join(' ');
+
+  const queryTerms = expandedPrompt
     .split(/\s+/)
     .filter((term) => term.length > 2 && !stopWords.has(term));
 
@@ -89,36 +196,38 @@ export async function processAICustomerQuery(
   const toyKeywords = ['toy', 'toys', 'plaything', 'stuffed animal', 'remote control car', 'blocks', 'teddy', 'plush', 'bear', 'puzzle', 'board game', 'train', 'robot'];
   const giftKeywords = ['gift', 'gifts', 'gift item', 'gift items', 'present', 'hamper', 'gift box', 'wrapped gift', 'bouquet', 'chocolate', 'mug', 'watch'];
 
+  const queryLowerExpanded = expandedPrompt.toLowerCase();
+
   const isGymQuery =
-    queryLower.includes('gym') ||
-    gymKeywords.some((keyword) => queryLower.includes(keyword));
+    queryLowerExpanded.includes('gym') ||
+    gymKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isLaptopQuery =
-    laptopKeywords.some((keyword) => queryLower.includes(keyword));
+    laptopKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isMobileQuery =
-    mobileKeywords.some((keyword) => queryLower.includes(keyword));
+    mobileKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isElectricalQuery =
-    electricalKeywords.some((keyword) => queryLower.includes(keyword));
+    electricalKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isAccessoryQuery =
-    accessoryKeywords.some((keyword) => queryLower.includes(keyword));
+    accessoryKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isHomeApplianceQuery =
-    homeApplianceKeywords.some((keyword) => queryLower.includes(keyword));
+    homeApplianceKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isBeautyQuery =
-    beautyKeywords.some((keyword) => queryLower.includes(keyword));
+    beautyKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isFurnitureQuery =
-    furnitureKeywords.some((keyword) => queryLower.includes(keyword));
+    furnitureKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isToyQuery =
-    toyKeywords.some((keyword) => queryLower.includes(keyword));
+    toyKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   const isGiftQuery =
-    giftKeywords.some((keyword) => queryLower.includes(keyword));
+    giftKeywords.some((keyword) => queryLowerExpanded.includes(keyword));
 
   let matches = INITIAL_PRODUCTS
     .filter((p) => !p.isUpsell)
@@ -136,14 +245,17 @@ export async function processAICustomerQuery(
         normalizedProductName.includes(normalizedPrompt) ||
         (queryTerms.length > 0 &&
           queryTerms.every((term) =>
-            normalizedProductName.includes(term)
+            normalizedProductName.includes(term) || hasApproximateNameMatch(term, p.name)
           ));
 
       const keywordMatches =
         queryTerms.length === 0 ||
         queryTerms.some((term) =>
-          searchableText.includes(term)
+          searchableText.includes(term) || hasApproximateNameMatch(term, p.name)
         );
+
+      const fuzzyMatchScore = getProductMatchScore(normalizedPrompt, p);
+      const fuzzyMatch = fuzzyMatchScore >= 0.69;
 
       const gymCategoryMatches =
         isGymQuery &&
@@ -286,7 +398,7 @@ export async function processAICustomerQuery(
 
       return (
         matchesBudget &&
-        (exactCategoryMatch || nameMatches || keywordMatches)
+        (exactCategoryMatch || nameMatches || keywordMatches || fuzzyMatch)
       );
     });
 
@@ -439,38 +551,35 @@ export async function processAICustomerQuery(
 export function getUpsellForProduct(
   product: Product
 ): Product[] {
-  if (
-    product.category === 'Running Shoes' ||
-    product.id.includes('adidas') ||
-    product.id.includes('nike') ||
-    product.id.includes('puma')
-  ) {
-    return [
-      INITIAL_PRODUCTS.find(
-        (p) => p.id === 'upsell-socks-1'
-      ) || INITIAL_PRODUCTS[3],
+  const candidateIds = product.suggestedUpsells || [];
 
-      INITIAL_PRODUCTS.find(
-        (p) => p.id === 'upsell-bottle-1'
-      ) || INITIAL_PRODUCTS[4],
-    ];
+  const matchedUpsells = candidateIds
+    .map((id) => INITIAL_PRODUCTS.find((p) => p.id === id))
+    .filter((p): p is Product => Boolean(p));
+
+  if (matchedUpsells.length >= 2) {
+    return matchedUpsells.slice(0, 2);
   }
 
-  if (product.category === 'Laptops') {
-    return [
-      INITIAL_PRODUCTS.find((p) => p.id === 'upsell-laptop-bag-1') || INITIAL_PRODUCTS[0],
-      INITIAL_PRODUCTS.find((p) => p.id === 'upsell-mouse-1') || INITIAL_PRODUCTS[1],
-    ];
-  }
+  const fallbackIds = {
+    'Running Shoes': ['upsell-socks-1', 'upsell-bottle-1'],
+    'Laptops': ['upsell-laptop-bag-1', 'upsell-mouse-1'],
+    'Mobiles': ['upsell-phone-case-1', 'upsell-charger-1'],
+    'Fitness Wearables': ['upsell-strap-1', 'upsell-armband-1'],
+    'Accessories': ['upsell-case-1', 'upsell-usb-cable-1'],
+    'Electrical': ['upsell-smart-plug-1', 'upsell-usb-cable-1'],
+    'Home Appliances': ['upsell-filter-1', 'upsell-air-freshener-1'],
+    'Beauty Products': ['upsell-skin-mist-1', 'upsell-makeup-brush-1'],
+    'Furniture': ['upsell-cushion-set-1', 'upsell-desk-mat-1'],
+    'Toys': ['upsell-toy-set-1', 'upsell-gift-box-1'],
+    'Gift Items': ['upsell-card-1', 'upsell-wrap-1'],
+    'Gym': ['upsell-gym-bottle-1', 'upsell-dumbbell-1'],
+    'Nutrition': ['upsell-gel-1', 'upsell-towel-1']
+  }[product.category] || ['upsell-case-1', 'upsell-usb-cable-1'];
 
-  if (product.category === 'Mobiles') {
-    return [
-      INITIAL_PRODUCTS.find((p) => p.id === 'upsell-phone-case-1') || INITIAL_PRODUCTS[0],
-      INITIAL_PRODUCTS.find((p) => p.id === 'upsell-charger-1') || INITIAL_PRODUCTS[1],
-    ];
-  }
+  const fallbackUpsells = fallbackIds
+    .map((id) => INITIAL_PRODUCTS.find((p) => p.id === id))
+    .filter((p): p is Product => Boolean(p));
 
-  return INITIAL_PRODUCTS
-    .filter((p) => p.isUpsell)
-    .slice(0, 2);
+  return fallbackUpsells.length > 0 ? fallbackUpsells.slice(0, 2) : INITIAL_PRODUCTS.filter((p) => p.isUpsell).slice(0, 2);
 }
