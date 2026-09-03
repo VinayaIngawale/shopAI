@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from './ProductCard';
-import { Send, Bot, User, Sparkles, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Send, Bot, User } from 'lucide-react';
 
 export const ShoppingPage: React.FC = () => {
   const {
@@ -81,43 +81,6 @@ export const ShoppingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Cart Quick Banner if Items are Selected */}
-      {cart.length > 0 && (
-        <div className="bg-gradient-to-r from-[#14532D] to-[#092E16] text-white p-4 sm:p-5 rounded-2xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-[#14532D]/30">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-[#F97316] flex items-center justify-center text-white font-bold shadow-sm">
-              <ShoppingBag className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-sm font-extrabold text-white">
-                Cart Items Selected ({cart.length} item(s))
-              </div>
-              <div className="text-xs text-[#FACC15] font-extrabold">
-                Total Amount: ₹{cart.reduce((s, i) => s + i.product.price * i.quantity, 0).toLocaleString('en-IN')}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3 w-full sm:w-auto">
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/10"
-            >
-              View Cart
-            </button>
-
-            <button
-              onClick={handleQuickCheckout}
-              disabled={isSavingSale}
-              className="flex-1 sm:flex-none bg-[#F97316] hover:bg-[#EA580C] text-white px-5 py-2.5 rounded-xl font-black text-xs shadow-lg transition-all flex items-center justify-center space-x-1.5"
-            >
-              <Sparkles className="w-4 h-4 text-[#FACC15]" />
-              <span>{isSavingSale ? 'Processing...' : 'Proceed to Checkout'}</span>
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Chat Conversation Stream */}
       <div className="space-y-6">
         {chatMessages.map((msg) => (
@@ -186,19 +149,6 @@ export const ShoppingPage: React.FC = () => {
 
         <div ref={chatEndRef} />
       </div>
-
-      {cart.length > 0 && (
-        <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={() => setIsCartOpen(true)}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#14532D] px-4 py-3 text-sm font-black text-white shadow-lg transition-all hover:bg-[#092E16]"
-          >
-            <ShoppingBag className="h-4 w-4 text-[#FACC15]" />
-            <span>View Cart</span>
-          </button>
-        </div>
-      )}
 
       {/* Chat Input Bar */}
       <form onSubmit={handleSubmit} className="sticky bottom-6 z-30">
