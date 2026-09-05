@@ -17,7 +17,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted =
 
   return (
     <div
-      className={`bg-white rounded-2xl border transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-none hover:shadow-none hover:-translate-y-0.5 ${
+      className={`group bg-white rounded-2xl border transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden shadow-sm hover:border-[#F97316]/60 hover:shadow-[0_14px_30px_rgba(20,83,45,0.14)] hover:-translate-y-1 ${
         highlighted ? 'ring-2 ring-[#F97316] border-transparent scale-[1.01]' : 'border-[#0F3D2B]/10'
       }`}
     >
@@ -27,7 +27,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, highlighted =
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-contain p-2 transition-transform duration-500"
+            className="w-full h-full object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-105"
           />
           <div className="absolute top-3 right-3 bg-[#14532D]/90 text-[#FACC15] text-xs font-black px-3 py-1.5 rounded-full backdrop-blur-md flex items-center space-x-1 shadow-md">
             <Sparkles className="w-3.5 h-3.5" />
