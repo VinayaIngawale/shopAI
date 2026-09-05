@@ -439,27 +439,27 @@ Add screenshots of the application here.
 
 Example:
 
-```markdown
+
 ## Home Page
 
-![Home Page]<img width="1582" height="890" alt="home png" src="https://github.com/user-attachments/assets/883cad05-31a1-4a33-b457-391e22017c26" />
+<img width="1582" height="890" alt="home png" src="https://github.com/user-attachments/assets/883cad05-31a1-4a33-b457-391e22017c26" />
 
 
 ## AI Shopping
 
-![AI Shopping]<img width="1382" height="905" alt="shopping png" src="https://github.com/user-attachments/assets/5ab0aba5-b8ba-4682-8266-2406e259d1a3" />
+<img width="1382" height="905" alt="shopping png" src="https://github.com/user-attachments/assets/5ab0aba5-b8ba-4682-8266-2406e259d1a3" />
 
 
 ## Seller Dashboard
 
-![Dashboard]<img width="1510" height="910" alt="dashboard png" src="https://github.com/user-attachments/assets/9da3e7f7-23b1-4170-8bdf-6dce7a137057" />
+<img width="1510" height="910" alt="dashboard png" src="https://github.com/user-attachments/assets/9da3e7f7-23b1-4170-8bdf-6dce7a137057" />
 
 
 ## Shopping Cart
 
-![Shopping Cart]<img width="1601" height="910" alt="cart png" src="https://github.com/user-attachments/assets/4d342aa8-a683-450c-bc2f-22b2038ad760" />
+<img width="1601" height="910" alt="cart png" src="https://github.com/user-attachments/assets/4d342aa8-a683-450c-bc2f-22b2038ad760" />
 
-```
+
 
 ---
 
